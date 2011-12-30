@@ -1,0 +1,43 @@
+<!doctype html>
+<html> 
+<head>
+
+<title>Sample Offline Caching Page</title>
+
+<link href="style.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+// These two listeners will reload the page if the manifest has changed.
+// This code should be used on any page that should refresh itself immediately if it is stale.
+if (typeof window.applicationCache !== "undefined") {
+  window.applicationCache.addEventListener('updateready', function() {
+    window.applicationCache.swapCache();
+    setTimeout(function() {location.reload(true)}, 1000);
+  }, false);
+
+  window.applicationCache.addEventListener('downloading', function() {
+    document.body.innerHTML="<center><br><br><h1>Updating cache...<br><br>Page will reload in a moment.</h1><br></center>";
+    document.body.style.setProperty("background", "#888");
+  }, false);
+}
+</script>
+
+</head> 
+<body>
+
+<div class="content">
+
+	<h1>Sample Offline Caching Page!</h1>
+
+	<h2>
+	Click <a href="inc/offline.html">here</a> to cache this page.
+	</h2>
+
+	<p>
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	</p>
+
+</div>
+
+</body> 
+</html> 

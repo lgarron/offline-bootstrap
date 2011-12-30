@@ -1,0 +1,7 @@
+CACHE MANIFEST
+# Uploaded on [DATE]
+offline_storage_example.png
+offline.html
+../style.css
+# Most servers should serve up index.html at the document root, so the following line should be fine:
+../

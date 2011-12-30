@@ -1,0 +1,144 @@
+<html manifest="cache.manifest">
+<head>
+
+<title>Offline Caching</title>
+
+<style type="text/css">
+html, body {
+  margin: 0px;
+  padding: 0px;
+  background: #EEE;
+  font-family: Helvetica, Tahoma, Arial;
+}
+
+h1 {
+  background: #CCC;
+  padding: 0.5em;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0px 5px 5px #888;
+}
+
+.offline_info {
+  background: #CCC;
+  max-width: 800px;
+  margin: 32px auto;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 2px 2px 5px #888;
+}
+
+.offline_storage_example img {
+  display: block;
+  margin: 16px auto;
+  border-radius: 8px;
+}
+
+#cache_status {
+  background: #FFA;
+  margin: 0px 25%;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 2px 2px 5px #888;
+}
+</style>
+
+<script type="text/javascript">
+
+var onloadFn = function() {
+
+    colors = {
+      progress: "#FFA",
+      done: "#AFA",
+      error: "#FAA",
+      other: "#AAA"
+    }
+
+    var displayUpdate = function(message, color) {
+          document.getElementById("cache_status").innerHTML = message;
+          document.getElementById("cache_status").style.setProperty('background-color', color);
+    }
+
+    if (typeof window.applicationCache !== "undefined") {
+
+      var eventList = {
+        "cached" : [ "Done caching...", colors.done ],
+        "checking" : [ "Checking cache...", colors.progress ],
+        "downloading" : [ "Downloading...", colors.progress ],
+        "error" : [ "Error! (Are you already offline?)", colors.error ],
+        "noupdate" : [ "Cache is up to date.", colors.done ],
+        "obsolete" : [ "Cache is obsolete.", colors.error ],
+        "progress" : [ "In progress...", colors.progress ],
+        "updateready" : [ "Update ready...", colors.other ]
+      }
+
+      function cachedCallback(e) {
+        console.log("Cache event: " + e.type + "(status is " + window.applicationCache.status + ", online is " + navigator.onLine + ")");
+        if (navigator.onLine) {
+          displayUpdate(eventList[e.type][0], eventList[e.type][1]);
+        }
+        else {
+          displayUpdate("You're offline!", colors.done);
+        }
+      };
+
+      var updateReady = function() {
+        window.applicationCache.swapCache();
+        setTimeout(function() {location.reload(true)}, 1000);
+      }
+
+      window.applicationCache.addEventListener('cached', cachedCallback, false);
+      window.applicationCache.addEventListener('checking', cachedCallback, false);
+      window.applicationCache.addEventListener('downloading', cachedCallback, false);
+      window.applicationCache.addEventListener('error', cachedCallback, false);
+      window.applicationCache.addEventListener('noupdate', cachedCallback, false);
+      window.applicationCache.addEventListener('obsolete', cachedCallback, false);
+      window.applicationCache.addEventListener('progress', cachedCallback, false);
+      window.applicationCache.addEventListener('updateready', updateReady, false);
+
+    }
+    else {
+      displayUpdate("Sorry, your browser doesn't support offline caching.", colors.error);
+    }
+
+  };
+</script>
+
+</head>
+<body onload = "onloadFn();">
+
+  <h1 class="title">
+    <a href="../">Webpage</a> &rarr; <a href="">Offline Access</a>
+  </h1>
+
+  <div class="offline_info">
+
+    <center>
+      <div id="cache_status">Getting ready to cache...</div>
+    </center>
+
+    <h2>Instructions</h2>
+
+    <ol>
+      <li>If your browser asks you whether store offline data,
+        allow it.
+        <ul>
+          <li>Firefox will normally ask (see example), Google
+            Chrome will normally store it without asking.</li>
+        </ul></li>
+      <li>Wait for the indicator above to turn green.
+      <li>Visit <a href="../">the page</a> again once you're
+        offline.</li>
+    </ol>
+
+    <h2>Example (Firefox)</h2>
+    <div class="offline_storage_example">
+      <img src="offline_storage_example.png"
+        alt="Offline storage dialog example in Firefox."
+        />
+    </div>
+
+  </div>
+
+</body>
+</html>
