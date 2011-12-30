@@ -13,7 +13,7 @@ Right now, the code is based on the twisty.js/Mark 2 code. It is not fully robus
 - Place the `inc/` directory in your project, including `inc/.htaccess`, `inc/cache.manifest`, `inc/offline_storage_example.png`, and `inc/offline.html`. Alternatively, you can place the files in another folder (even `./`), but you'll have to update the references yourself, which is a bit tricky.
 - Update `inc/cache.manifest` to include your project files.
 
-## Details
+``Optional'' Details:
 
 - Take the Javascript cache update code from `index.html` and place it in any files you want to have auto-reload on a cache update.
 - Link to `inc/offline.html` from any page that needs a link for starting the offline caching.
@@ -21,7 +21,17 @@ Right now, the code is based on the twisty.js/Mark 2 code. It is not fully robus
 
 ## How it works
 
-The most important part of the caching process is a file called the manifest, which is at `inc/cache.manifest` in this project. It needs to be served with the MIME type `text/cache-manifest`, which is handled by `inc/.htaccess`.
+There are three main steps to make online caching to work.
+
+1. Have a manifest file that tells the browser what files to cache.
+2. Serve it with the correct MIME type.
+3. Link to it from a page using `<html manifest="cache.manifest">`.
+
+Javascript can be used to track caching events (e.g. to provide updates to the user).
+
+---
+
+The most important part of the caching process is a file called the manifest, which is at `inc/cache.manifest` in this project. It needs to be served with the MIME type `text/cache-manifest`, which is handled by `inc/.htaccess` (for Apachehttps://github.com/lgarron/offline-bootstrap/issues/1).
 
 Normally, it is sufficient to include some code on a page to make it load offline. This has a few drawbacks, including:
 
