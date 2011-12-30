@@ -8,6 +8,17 @@ This is my attempt to simplify the process by providing a bootstrap -- a collect
 
 Right now, the code is based on the twisty.js/Mark 2 code. It is not fully robust, but I've found that it works well in practice already.
 
+## How to use it
+
+- Place the `inc/` directory in your project, including `inc/.htaccess`, `inc/cache.manifest`, `inc/offline_storage_example.png`, and `inc/offline.html`. Alternatively, you can place the files in another folder (even `./`), but you'll have to update the references yourself, which is a bit tricky.
+- Update `inc/cache.manifest` to include your project files.
+
+## Details
+
+- Take the Javascript cache update code from `index.html` and place it in any files you want to have auto-reload on a cache update.
+- Link to `inc/offline.html` from any page that needs a link for starting the offline caching.
+- In `inc/offline.html`, customize the page title, `h1` title, and the link in step 3 with the name of your project.
+
 ## How it works
 
 The most important part of the caching process is a file called the manifest, which is at `inc/cache.manifest` in this project. It needs to be served with the MIME type `text/cache-manifest`, which is handled by `inc/.htaccess`.
