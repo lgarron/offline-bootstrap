@@ -10,14 +10,18 @@ Right now, the code is based on the twisty.js/Mark 2 code. It is not fully robus
 
 ## How to use it
 
-- Place the `inc/` directory in your project, including `inc/.htaccess`, `inc/cache.manifest`, `inc/offline_storage_example.png`, and `inc/offline.html`. Alternatively, you can place the files in another folder (even `./`), but you'll have to update the references yourself, which is a bit tricky.
+- Place the `inc/` directory in your project, with the following files:
+  - `inc/.htaccess`
+  - `inc/cache.manifest`
+  - `inc/offline.html`
 - Update `inc/cache.manifest` to include your project files.
 
-``Optional'' Details:
+## "Optional" Details:
 
 - Take the Javascript cache update code from `index.html` and place it in any files you want to have auto-reload on a cache update.
 - Link to `inc/offline.html` from any page that needs a link for starting the offline caching.
 - In `inc/offline.html`, customize the page title, `h1` title, and the link in step 3 with the name of your project.
+- You can place the files from `inc/` in another folder (even `./`), but you'll have to update the paths in the manifest yourself. Make sure you understand what you're doing, else this might make it harder to debug.    
 
 ## How it works
 
