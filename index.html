@@ -1,10 +1,8 @@
 <!doctype html>
-<html> 
+<html>
 <head>
 
 <title>Sample Offline Caching Page</title>
-
-<link href="style.css" rel="stylesheet" type="text/css" />
 
 <script type="text/javascript">
 // These two listeners will reload the page if the manifest has changed.
@@ -22,7 +20,12 @@ if (typeof window.applicationCache !== "undefined") {
 }
 </script>
 
-</head> 
+<style>
+html, body { margin: 0px; padding: 0px; background-color: #DDD; font-family: Helvetica, Tahoma, Arial; }
+.content { margin: 2em; }
+</style>
+
+</head>
 <body>
 
 <div class="content">
@@ -39,5 +42,5 @@ if (typeof window.applicationCache !== "undefined") {
 
 </div>
 
-</body> 
-</html> 
+</body>
+</html>
