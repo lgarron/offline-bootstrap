@@ -3,6 +3,8 @@
 import argparse
 import datetime
 import re
+import sys
+import textwrap
 
 # This script modifies the manifest file to include a unique timestamp on every upload (so that browsers will look for a new version).
 # See http://diveintohtml5.info/offline.html
@@ -10,6 +12,13 @@ import re
 parser = argparse.ArgumentParser(description='Update a cache manifest file with a unique date/time (so that browsers will look for a new version), or revert it to a template for version control.')
 
 group = parser.add_mutually_exclusive_group(required=True)
+
+parser.add_argument(
+  '--quiet', '-q',
+  action='store_true',
+  default=False,
+  help="Don't print output."
+)
 
 group.add_argument(
   '--update', '-u',
@@ -36,16 +45,30 @@ args = parser.parse_args()
 
 contents = args.file.read()
 
+if not args.quiet:
+  print("------------------------")
+
 if args.update:
   dateString = datetime.datetime.now().strftime("%c")
-  print "Updating to " + dateString
+  if not args.quiet:
+    print("[manifest] Updating cache manifest file: %s" % args.file.name)
+    print("[manifest] New date: %s" % dateString)
 elif args.revert:
   dateString = "[DATE]"
-  print "Reverting."
+  if not args.quiet:
+    print("[manifest] Reverting cache manifest file: %s" % args.file.name)
 else:
   assert False
 
-new_contents = re.sub(r"Uploaded on .*", "Uploaded on " + dateString, contents)
+new_contents = re.sub(r"Uploaded on .*", "Uploaded on %s" % dateString, contents)
+
+if not args.quiet:
+  sys.stderr.write("[manifest] New contents:\n\n")
+  sys.stderr.write(new_contents)
+  sys.stderr.write("\n")
+
+  print("------------------------")
+
 args.file.seek(0)
 args.file.truncate()
 args.file.write(new_contents)
