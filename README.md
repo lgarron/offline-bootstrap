@@ -46,7 +46,7 @@ Normally, it is sufficient to include some code on a web page to make it cache f
 
 Therefore, I like to use a separate file, `inc/offline.html`. If a user visits that page, it loads the manifest, and caches several files, *including the original page* and any scripts or images it needs. Now, the original page can load offline for the user. In addition, if the manifest changes, then a cache update will be triggered if time they visit any of the files in the manifest (while they're online).
 
-This means that *the contents of the manifest file should be changed every time the files are changed* on the server (else the browser will assume the cache is up to date). I've included a sample `deploy.sh` script that inserts the current date and time into the manifest so that a conventional `rsync` deployment will always force browsers to refresh the cache the next time they visit the site while they're online.
+This means that *the contents of the manifest file should be changed every time the files are changed* on the server (else the browser will assume the cache is up to date). I've included a sample `Makefile` script that inserts the current date and time into the manifest so that a conventional `rsync` deployment will always force browsers to refresh the cache the next time they visit the site while they're online.
 
 ## HTML5 Offline Caching References
 
