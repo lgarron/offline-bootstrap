@@ -14,10 +14,17 @@ parser = argparse.ArgumentParser(description='Update a cache manifest file with 
 group = parser.add_mutually_exclusive_group(required=True)
 
 parser.add_argument(
-  '--quiet', '-q',
+  '--concise', '-c',
   action='store_true',
   default=False,
-  help="Don't print output."
+  help="concise output."
+)
+
+parser.add_argument(
+  '--silent', '-s',
+  action='store_true',
+  default=False,
+  help="Don't print output. Overrides --concise."
 )
 
 group.add_argument(
@@ -45,28 +52,29 @@ args = parser.parse_args()
 
 contents = args.file.read()
 
-if not args.quiet:
+if (not args.silent):
   print("------------------------")
 
 if args.update:
   dateString = datetime.datetime.now().strftime("%c")
-  if not args.quiet:
+  if not args.silent:
     print("[manifest] Updating cache manifest file: %s" % args.file.name)
     print("[manifest] New date: %s" % dateString)
 elif args.revert:
   dateString = "[DATE]"
-  if not args.quiet:
+  if not args.silent:
     print("[manifest] Reverting cache manifest file: %s" % args.file.name)
 else:
   assert False
 
 new_contents = re.sub(r"Uploaded on .*", "Uploaded on %s" % dateString, contents)
 
-if not args.quiet:
+if (not args.silent) and (not args.concise):
   sys.stderr.write("[manifest] New contents:\n\n")
   sys.stderr.write(new_contents)
   sys.stderr.write("\n")
 
+if (not args.silent):
   print("------------------------")
 
 args.file.seek(0)
